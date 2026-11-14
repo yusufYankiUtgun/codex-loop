@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Testler için sahte codex. Çağrıları $FAKE_LOG'a "<cwd>\t<argümanlar>" olarak yazar.
+#   FAKE_MODE: ok | fail_with_answer | timeout | ratelimit | auth | schema_ok | schema_bad | no_complete
+#   FAKE_TID: exec'te dönülecek thread id (varsayılan T-new)
+#   FAKE_ARCHIVE_FAIL: arşivlenemeyecek id'ler (boşlukla ayrılmış)
+
+printf '%s\t%s\n' "$PWD" "$*" >>"${FAKE_LOG:?}"
+
+case "$1" in
+  archive)
+    [[ " ${FAKE_ARCHIVE_FAIL:-} " == *" $2 "* ]] && exit 1
+    echo "Archived session $2."; exit 0 ;;
+  delete) exit 0 ;;
+  exec) ;;
+  *) exit 2 ;;
+esac
+
+cat >/dev/null
+out="" prev=""
+for a in "$@"; do [ "$prev" = "-o" ] && out="$a"; prev="$a"; done
+if [ "$2" = resume ]; then tid="${@: -2:1}"; else tid="${FAKE_TID:-T-new}"; fi
+
+echo "{\"type\":\"thread.started\",\"thread_id\":\"$tid\"}"
+case "${FAKE_MODE:-ok}" in
+  ok)               printf 'cevap' >"$out"; echo '{"type":"turn.completed"}' ;;
+  fail_with_answer) printf 'yarım cevap' >"$out"; exit 1 ;;
+  timeout)          exec sleep 30 ;;
+  ratelimit)        echo 'stream error: 429 Too Many Requests' >&2; exit 1 ;;
+  auth)             echo 'Error: 401 Unauthorized' >&2; exit 1 ;;
+  schema_ok)        printf '{"verdict":"approved","summary":"","findings":[]}' >"$out"; echo '{"type":"turn.completed"}' ;;
+  schema_bad)       printf 'düz metin' >"$out"; echo '{"type":"turn.completed"}' ;;
+  no_complete)      printf 'x' >"$out" ;;
+esac

@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "summary", "findings"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["approved", "findings_remaining"],
+      "description": "approved: blocker/major/minor bulgu kalmadı. findings_remaining: en az bir açık blocker/major/minor bulgu var."
+    },
+    "summary": {
+      "type": "string",
+      "description": "En fazla 3 cümle genel değerlendirme."
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "severity", "file", "line", "claim", "suggested_fix"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Önceki turdaki id'yi aynen koru (F1, F2, ...). Yeni bulguya sıradaki numarayı ver."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["new", "still_open", "resolved", "withdrawn"],
+            "description": "new: bu turda ilk kez. still_open: düzeltilmedi ya da düzeltme yetersiz. resolved: düzeltildi. withdrawn: karşı gerekçeye ikna oldun."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["blocker", "major", "minor", "nit"],
+            "description": "blocker: hata/güvenlik/veri kaybı, merge edilemez. major: yanlış davranış. minor: küçük ama gerçek davranış etkisi. nit: davranışa etkisi yok (stil, zevk)."
+          },
+          "file": { "type": ["string", "null"] },
+          "line": { "type": ["integer", "null"] },
+          "claim": {
+            "type": "string",
+            "description": "Somut sorun: hangi girdi/durumda ne yanlış olur."
+          },
+          "suggested_fix": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

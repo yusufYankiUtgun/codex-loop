@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "codex-loop",
+  "description": "codex-loop plugin'i: Claude Code ile OpenAI Codex arasında sor / incele / planla döngüsü.",
+  "owner": {
+    "name": "Yusuf Yankı Ütgün"
+  },
+  "plugins": [
+    {
+      "name": "codex-loop",
+      "description": "Claude Code'un Codex'e danışması, kodu Codex'e inceletmesi ve planı Codex ile birlikte yapması.",
+      "source": "./",
+      "category": "development",
+      "homepage": "https://github.com/yusufYankiUtgun/codex-loop"
+    }
+  ]
+}

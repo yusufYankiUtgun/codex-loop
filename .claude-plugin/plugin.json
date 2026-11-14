@@ -1,0 +1,13 @@
+{
+  "name": "codex-loop",
+  "version": "1.0.0",
+  "description": "Claude Code'un OpenAI Codex'e danışması, kodu Codex'e inceletmesi ve planı Codex ile birlikte yapması. Codex salt okunur çalışır; son karar ve uygulama Claude'da.",
+  "author": {
+    "name": "Yusuf Yankı Ütgün",
+    "url": "https://github.com/yusufYankiUtgun"
+  },
+  "homepage": "https://github.com/yusufYankiUtgun/codex-loop",
+  "repository": "https://github.com/yusufYankiUtgun/codex-loop",
+  "license": "MIT",
+  "keywords": ["codex", "openai", "code-review", "planning", "second-opinion"]
+}

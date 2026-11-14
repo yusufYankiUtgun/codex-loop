@@ -1,0 +1,25 @@
+{
+  "description": "codex-loop'un açtığı Codex oturumlarını Claude oturumu kapanınca arşivler, 30 gün sonra siler.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/codex-loop/codex-threads.sh\" session-start"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/codex-loop/codex-threads.sh\" session-end"
+          }
+        ]
+      }
+    ]
+  }
+}
